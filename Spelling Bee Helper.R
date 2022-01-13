@@ -10,7 +10,7 @@ options(warn = 0)
 
 clean.up <- TRUE
   
-w <- "Balmnut" %>%
+w <- "Idefgty" %>%
   toupper %>% 
   str_extract_all(., "[A-Z]") %>% 
   unlist %>% 

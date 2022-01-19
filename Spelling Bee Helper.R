@@ -10,7 +10,7 @@ options(warn = 0)
 
 clean.up <- TRUE
   
-w <- "Idefgty" %>%
+w <- "Laitpud" %>%
   toupper %>% 
   str_extract_all(., "[A-Z]") %>% 
   unlist %>% 
@@ -66,7 +66,7 @@ get.words <- function(center.letter, other.letters) {
 }
 
 
-HC.Words <- get.words(center, others)
+SB.Soln.Set <- get.words(center, others)
 
 rm(word.url)
 
@@ -81,8 +81,8 @@ g02 <- c(center, others) %>%
   paste(., collapse = "")
 
 
-sum(HC.Words$points)
-HC.Words %>% 
+sum(SB.Soln.Set$points)
+SB.Soln.Set %>% 
   filter(points >= 14) %>%
   nrow
 # g01
@@ -93,7 +93,7 @@ if (clean.up) {
   rm(w, center, others)
   # rm(word.list)
   rm(g01, g02)
-  # rm(HC.words)
+  # rm(SB.Soln.Set)
 }  
   
 rm(clean.up)

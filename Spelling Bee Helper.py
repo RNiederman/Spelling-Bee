@@ -30,10 +30,9 @@ def build_word_list(url):
     w = f.read().decode('utf-8').upper().split()
     w = list(filter(lambda word: len(word) >= 4, w))
     w = list(filter(lambda word: "S" not in (word), w))
-    hc = list(map(len, w))
     ul = list(map(unique_letters, w))
     p = list(map(spelling_bee_points, w))
-    d = {'Word': w, 'Length': hc, 'Unique Letters': ul, 'Score': p}
+    d = {'Word': w, 'Unique Letters': ul, 'Score': p}
     df = pd.DataFrame(d)
     df = df[(df['Unique Letters']) <= 7]
     df = df.sort_values(['Score', 'Word'], ascending=(False, True))
@@ -44,10 +43,10 @@ def sb_helper(letters, mwl):
     center = letters[0]
     hc = mwl[mwl['Word'].str.contains(center)]
     alphabet = set(st.ascii_uppercase)
-    invalid_letters = alphabet.difference(set(letters))
-    for bad_lttr in invalid_letters:
-        hc = hc[~hc['Word'].str.contains(bad_lttr)]
-    cols = [0, 3]
+    bad_letters = alphabet.difference(set(letters))
+    for lttr in bad_letters:
+        hc = hc[~hc['Word'].str.contains(lttr)]
+    cols = [0, 2]
     hc = hc[hc.columns[cols]]
     return hc
 

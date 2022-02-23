@@ -1,9 +1,11 @@
 import pandas as pd
 import string as st
+import re
+import sys
 from urllib.request import urlopen
 
 
-sb_letters = ['F', 'U', 'N', 'L', 'I', 'B', 'E']
+sb_letters = 'fbeilnu'
 # Center Letter Should Always be 1st
 word_url = 'https://norvig.com/ngrams/enable1.txt'
 # word_url = 'http://www-personal.umich.edu/~jlahcer/wordlist'
@@ -40,17 +42,22 @@ def build_word_list(url):
 
 
 def sb_helper(letters, mwl):
-    center = letters[0]
+    ltrs_0 = letters.upper()
+    ltrs = re.findall("[A-Z]", ltrs_0)
+    center = ltrs[0]
     hc = mwl[mwl['Word'].str.contains(center)]
     alphabet = set(st.ascii_uppercase)
-    bad_letters = alphabet.difference(set(letters))
-    for lttr in bad_letters:
-        hc = hc[~hc['Word'].str.contains(lttr)]
+    bad_letters = alphabet.difference(set(ltrs))
+    for bd_lttr in bad_letters:
+        hc = hc[~hc['Word'].str.contains(bd_lttr)]
     cols = [0, 2]
     hc = hc[hc.columns[cols]]
     return hc
 
 
+test = unique_letters(sb_letters) != 7
+if test:
+    sys.exit("Wrong Amount of Letters")
 word_list = build_word_list(word_url)
 sb_soln = sb_helper(sb_letters, word_list)
 

@@ -1,4 +1,5 @@
 import re
+import pandas as pd
 from urllib.request import urlopen
 
 
@@ -37,6 +38,24 @@ if len(include) > 0:
 if a != "?????":
     patt = a.replace("?", "[A-Z]{1}")
     r = re.compile(patt)
-    w = set(filter(r.match, w))
+    w = list(filter(r.match, w))
 
-print(sorted(w))
+
+d = {"A": 1, "B": 3, "C": 3,  "D": 2, "E": 1, "F": 4, "G": 2,
+     "H": 4, "I": 1, "J": 8,  "K": 5, "L": 1, "M": 3, "N": 1,
+     "O": 1, "P": 3, "Q": 10, "R": 1, "S": 1, "T": 1, "U": 1,
+     "V": 4, "W": 4,  "X": 8, "Y": 4, "Z": 10}
+
+
+def scrabble_score(word):
+    s = 0
+    for letter in word.upper():
+        s += d[letter]
+    return s
+
+
+scrab = list(map(scrabble_score, w))
+df_raw = {'Word': w, 'Score': scrab}
+wordle = pd.DataFrame(df_raw)
+wordle = wordle.sort_values(['Score', 'Word'], ascending=(True, False))
+print(wordle.to_string())

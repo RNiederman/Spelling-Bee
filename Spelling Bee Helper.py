@@ -5,7 +5,7 @@ import sys
 from urllib.request import urlopen
 
 
-sb_letters = 'neoclaw'
+sb_letters = 'ochiptk'
 # Center Letter Should Always be 1st
 letters_reqd = 7
 
@@ -65,8 +65,10 @@ if bail_out:
 word_list = build_word_list(word_url)
 sb_soln = sb_helper(sb_letters, word_list)
 
+
 panagrams = sb_soln[sb_soln['Score'] >= 14]
 print()
 print(f"Panagrams: {len(panagrams)}")
 print(f"Total Points: {sum(sb_soln['Score'])}")
+print(f"Words: {len(sb_soln)}")
 print(sb_soln.to_string())

@@ -3,9 +3,9 @@ import pandas as pd
 from english_words import english_words_alpha_set
 
 ###############################################################################
-omit = 'ear o'
-include = 'i'
-answer = 's p ? ? l'
+omit = 'ear o'  # These are the Black Letters
+include = 'i'  # These are the Yellow Letters
+answer = ' s p ? ? l '  # These are the Grren Letters
 ###############################################################################
 
 o = omit.upper()
@@ -29,9 +29,9 @@ if len(o) > 0:
     w = list(set(w).difference(set(omit_list)))
 
 if len(i) > 0:
-    patt = ".*[" + i + "].*"
+    patt = ".*[(" + i + ")].*"
     r = re.compile(patt)
-    w = list(filter(r.match, w))
+    w = list(filter(r.findall, w))
 
 if a != "?????":
     patt = a.replace("?", "[A-Z]{1}")

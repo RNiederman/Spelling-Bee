@@ -1,11 +1,12 @@
 import re
 import pandas as pd
-from urllib.request import urlopen
+from english_words import english_words_alpha_set
 
-
-omit = 'ear-o'
+###############################################################################
+omit = 'ear o'
 include = 'i'
-answer = 'SP??L'
+answer = 's p ? ? l'
+###############################################################################
 
 o = omit.upper()
 o = re.sub("[^A-Z]", "", o)
@@ -13,27 +14,24 @@ o = re.sub("[^A-Z]", "", o)
 i = include.upper()
 i = re.sub("[^A-Z]", "", i)
 
-a = answer.upper()
+a = "".join(answer.split())
+a = a[:5].upper()
 a = re.sub("[^A-Z]", "?", a)
 
-word_url = 'https://norvig.com/ngrams/enable1.txt'
-# word_url = 'http://www-personal.umich.edu/~jlahcer/wordlist'
-# word_url = 'http://www.mieliestronk.com/corncob_caps.txt'
-
-h = urlopen(word_url)
-w = h.read().decode('utf-8').upper().split()
+w = list(english_words_alpha_set)
+w = list(map(lambda word: word.upper(), w))
 w = list(filter(lambda word: len(word) == 5, w))
 
 if len(o) > 0:
     patt = ".*[" + o + "].*"
     r = re.compile(patt)
     omit_list = set(filter(r.match, w))
-    w = set(w).difference(set(omit_list))
+    w = list(set(w).difference(set(omit_list)))
 
 if len(i) > 0:
     patt = ".*[" + i + "].*"
     r = re.compile(patt)
-    w = set(filter(r.match, w))
+    w = list(filter(r.match, w))
 
 if a != "?????":
     patt = a.replace("?", "[A-Z]{1}")
@@ -49,12 +47,20 @@ def scrabble_score(word):
 
     s = 0
     for letter in word.upper():
-        s += d[letter]
+        s += d.get(letter)
     return s
 
 
+def unique_letters(word):
+    a = set(word)
+    b = len(a)
+    return b
+
+
 scrab = list(map(scrabble_score, w))
-df_raw = {'Word': w, 'Score': scrab}
+uniq = list(map(unique_letters, w))
+df_raw = {'Word': w, 'UniqLttrs': uniq, 'Score': scrab}
 wordle = pd.DataFrame(df_raw)
-wordle = wordle.sort_values(['Score', 'Word'], ascending=(True, False))
+wordle = wordle.sort_values(['UniqLttrs', 'Score', 'Word'],
+                            ascending=(False, True, False))
 print(wordle.to_string())

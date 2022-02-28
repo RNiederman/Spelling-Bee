@@ -4,9 +4,11 @@ import pandas as pd
 from english_words import english_words_set
 
 ###############################################################################
-omit = 'spar tild un'  # These are the Black Letters
-include = 'oc'  # These are the Yellow Letters
-answer = ' ? ? ? ? e '  # These are the Green Letters
+omit = ''  # These are the Black Letters
+include = ''  # These are the Yellow Letters
+answer = ' ? ? ? ? ? '  # These are the Green Letters
+
+rws = 20  # The number of rows to display
 ###############################################################################
 
 o = omit.upper()
@@ -25,11 +27,8 @@ w = list(map(lambda word: word.translate(
     str.maketrans('', '', string.punctuation)), w))
 w = list(filter(lambda word: len(word) == 5, w))
 
-if len(o) > 0:
-    patt = ".*[" + o + "].*"
-    r = re.compile(patt)
-    omit_list = set(filter(r.match, w))
-    w = list(set(w).difference(set(omit_list)))
+for lttr in o:
+    w = list(filter(lambda wordset: lttr not in wordset, w))
 
 for lttr in i:
     w = list(filter(lambda wordset: lttr in wordset, w))
@@ -68,4 +67,4 @@ df_raw = {'Word': w, 'NewLttrs': uniq, 'Score': scrab}
 wordle = pd.DataFrame(df_raw)
 wordle = wordle.sort_values(['NewLttrs', 'Score', 'Word'],
                             ascending=(False, True, False))
-print(wordle.to_string())
+print(wordle.head(rws))

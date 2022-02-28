@@ -5,13 +5,12 @@ import sys
 from urllib.request import urlopen
 
 
-sb_letters = 'ochiptk'
+sb_letters = 'iradbol'
 # Center Letter Should Always be 1st
 letters_reqd = 7
-
-word_url = 'https://norvig.com/ngrams/enable1.txt'
-# word_url = 'http://www-personal.umich.edu/~jlahcer/wordlist'
-# word_url = 'http://www.mieliestronk.com/corncob_caps.txt'
+u = 'https://norvig.com/ngrams/enable1.txt'
+# u = 'http://www-personal.umich.edu/~jlahcer/wordlist'
+# u = 'http://www.mieliestronk.com/corncob_caps.txt'
 
 
 def unique_letters(word):
@@ -62,7 +61,7 @@ tester = reg_ex.sub('', sb_letters)
 bail_out = unique_letters(tester) != letters_reqd
 if bail_out:
     sys.exit("Wrong Amount of Letters")
-word_list = build_word_list(word_url)
+word_list = build_word_list(u)
 sb_soln = sb_helper(sb_letters, word_list)
 
 

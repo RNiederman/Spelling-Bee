@@ -2,6 +2,7 @@ import re
 import string
 import pandas as pd
 from english_words import english_words_set
+# from urllib.request import urlopen
 
 ###############################################################################
 omit = ''  # These are the Black Letters
@@ -9,6 +10,7 @@ include = ''  # These are the Yellow Letters
 answer = ' ? ? ? ? ? '  # These are the Green Letters
 
 rws = 20  # The number of rows to display
+# u = 'https://norvig.com/ngrams/enable1.txt'
 ###############################################################################
 
 o = omit.upper()
@@ -20,6 +22,9 @@ i = re.sub("[^A-Z]", "", i)
 a = ''.join(answer.split())
 a = a[:5].upper()
 a = re.sub("[^A-Z]", "?", a)
+
+# f = urlopen(u)
+# w = f.read().decode('utf-8').upper().split()
 
 w = list(english_words_set)
 w = list(map(lambda word: word.upper(), w))
@@ -39,6 +44,23 @@ if a != '?????':
     w = list(filter(r.match, w))
 
 
+def unique_letters2(word):
+    x = set(word.upper())
+    y = set(a)
+    z = set(i)
+    q = x.difference(y).difference(z)
+    return len(q)
+
+
+def vowel_count(word):
+    vowels = "AEIOU"
+    st = set(word.upper())
+    vc = 0
+    for v in vowels:
+        vc += v in st
+    return vc
+
+
 def scrabble_score(word):
     d = {'A': 1, 'B': 3, 'C': 3,  'D': 2, 'E': 1, 'F': 4, 'G': 2,
          'H': 4, 'I': 1, 'J': 8,  'K': 5, 'L': 1, 'M': 3, 'N': 1,
@@ -53,18 +75,11 @@ def scrabble_score(word):
     return s
 
 
-def unique_letters2(word):
-    x = set(word.upper())
-    y = set(a)
-    z = set(i)
-    q = x.difference(y).difference(z)
-    return len(q)
-
-
-scrab = list(map(scrabble_score, w))
 uniq = list(map(unique_letters2, w))
-df_raw = {'Word': w, 'NewLttrs': uniq, 'Score': scrab}
+vowels = list(map(vowel_count, w))
+scrab = list(map(scrabble_score, w))
+df_raw = {'Word': w, 'NewLttrs': uniq, 'Vowels': vowels, 'Score': scrab}
 wordle = pd.DataFrame(df_raw)
-wordle = wordle.sort_values(['NewLttrs', 'Score', 'Word'],
-                            ascending=(False, True, False))
+wordle = wordle.sort_values(['NewLttrs', 'Vowels', 'Score', 'Word'],
+                            ascending=(False, False, True, False))
 print(wordle.head(rws))

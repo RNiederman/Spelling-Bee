@@ -9,7 +9,7 @@ omit = ''  # These are the Black Letters
 include = ''  # These are the Yellow Letters
 answer = ' ? ? ? ? ? '  # These are the Green Letters
 
-rws = 20  # The number of rows to display
+rws = 40  # The number of rows to display
 # u = 'https://norvig.com/ngrams/enable1.txt'
 ###############################################################################
 
@@ -70,8 +70,7 @@ def scrabble_score(word):
     uword = word.upper()
     s = 0
     for letter in uword:
-        q = int(d.get(letter) or 0)
-        s += q
+        s += d.get(letter, 0)
     return s
 
 

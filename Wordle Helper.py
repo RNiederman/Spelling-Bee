@@ -33,10 +33,12 @@ w = list(map(lambda word: word.translate(
 w = list(filter(lambda word: len(word) == 5, w))
 
 for lttr in o:
-    w = list(filter(lambda wordset: lttr not in wordset, w))
+    w = [word for word in w if lttr not in word]
+    # w = list(filter(lambda wordset: lttr not in wordset, w))
 
 for lttr in i:
-    w = list(filter(lambda wordset: lttr in wordset, w))
+    w = [word for word in w if lttr in word]
+    # w = list(filter(lambda wordset: lttr in wordset, w))
 
 if a != '?????':
     patt = a.replace("?", "[A-Z]{1}")

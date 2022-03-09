@@ -10,13 +10,13 @@ include = ''  # These are the Yellow Letters
 answer = ' ? ? ? ? ? '  # These are the Green Letters
 
 rws = 40  # The number of rows to display
-#
 ###############################################################################
 
+word_length = 5
 a = ''.join(answer.split())
-a = a[:5].upper()
+a = a[:word_length].upper()
 a = re.sub("[^A-Z]", "?", a)
-if len(a) != 5:
+if len(a) != word_length:
     sys.exit("Need 5 Letters in the Answer Key")
 
 o = omit.upper()
@@ -29,7 +29,7 @@ w = list(english_words_set)
 w = list(map(lambda word: word.upper(), w))
 w = list(map(lambda word: word.translate(
     str.maketrans('', '', string.punctuation)), w))
-w = list(filter(lambda word: len(word) == 5, w))
+w = list(filter(lambda word: len(word) == word_length, w))
 
 for lttr in o:
     w = [word for word in w if lttr not in word]

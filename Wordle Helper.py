@@ -17,7 +17,8 @@ a = ''.join(answer.split())
 a = a[:word_length].upper()
 a = re.sub("[^A-Z]", "?", a)
 if len(a) != word_length:
-    sys.exit("Need 5 Letters in the Answer Key")
+    sys.exit("Need " + str(word_length) +
+             " Letters in the Answer Key")
 
 o = omit.upper()
 o = re.sub("[^A-Z]", "", o)

@@ -2,7 +2,7 @@ import re
 import string
 import pandas as pd
 import sys
-from english_words import english_words_set
+from urllib.request import urlopen
 
 ###############################################################################
 omit = ''  # These are the Black Letters
@@ -10,6 +10,7 @@ include = ''  # These are the Yellow Letters
 answer = ' ? ? ? ? ? '  # These are the Green Letters
 
 rws = 40  # The number of rows to display
+u = 'https://norvig.com/ngrams/enable1.txt'
 ###############################################################################
 
 word_length = 5
@@ -26,7 +27,8 @@ o = re.sub("[^A-Z]", "", o)
 i = include.upper()
 i = re.sub("[^A-Z]", "", i)
 
-w = list(english_words_set)
+f = urlopen(u)
+w = f.read().decode('utf-8').upper().split()
 w = list(map(lambda word: word.upper(), w))
 w = list(map(lambda word: word.translate(
     str.maketrans('', '', string.punctuation)), w))

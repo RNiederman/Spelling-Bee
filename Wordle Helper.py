@@ -57,10 +57,10 @@ def unique_letters2(word):
 
 
 def vowel_count(word):
-    vowels = "AEIOU"
+    vwels = "AEIOU"
     st = set(word.upper())
     vc = 0
-    for v in vowels:
+    for v in vwels:
         vc += v in st
     return vc
 
